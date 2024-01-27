@@ -6,6 +6,8 @@ export default function InputFields() {
   const [lastName, setLastName] = useState('');
   const [guests, setGuests] = useState([]);
 
+  const baseUrl = 'https://mn-react-guest-list.herokuapp.com';
+
   // Function to create a new guest
   const createGuest = () => {
     // Check if both first name and last name are not empty
@@ -72,12 +74,26 @@ export default function InputFields() {
           // Wrap each guest in a div with a key and a data-test-id attribute
           <div key={index} data-test-id="guest">
             {/* List item for each guest */}
+
             <li>
-              {/* Display guest's first name, last name, and attending status */}
+              {/* Display the guest's first name and last name */}
               {guest.firstName} {guest.lastName} -{' '}
+              {/* Checkbox to toggle attending status */}
+              <input
+                type="checkbox"
+                // Connect the state variable to the form fields
+                checked={guest.attending}
+                // Update the values of the state variables based on user input
+                onChange={(event) => {
+                  const updatedGuests = [...guests]; // Create a copy of the guests array
+                  updatedGuests[index].attending = event.currentTarget.checked; // Update the attending status of the guest at the current index
+                  setGuests(updatedGuests); // Update the state with the modified guest list
+                }}
+              />
+              {/* Display whether the guest is attending or not */}
               {guest.attending ? 'Attending' : 'Not Attending'}
               {/* Button to remove the guest */}
-              <button onClick={() => deleteGuest(index)}>Remove</button>{' '}
+              <button onClick={() => deleteGuest(index)}>Remove</button>
             </li>
           </div>
         ))}

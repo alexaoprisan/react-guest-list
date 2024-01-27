@@ -33,11 +33,11 @@ Alternatively, use an aria-label attribute starting with "Remove" (e.g., "Remove
 
 Setting Guest Attendance:
 
-[] Enable users to set a guest as "attending" by clicking on a checkbox.
-[] Ensure the checkbox has an aria-label containing the text "attending" (e.g., "<first name> <last name> attending status").
-[] Implement functionality to toggle the attendance status of guests.
-[] On the first click of the attending checkbox, set the guest to attending (check the checkbox).
-[] On the second click of the attending checkbox, set the guest to not attending (uncheck the checkbox).
+[x] Enable users to set a guest as "attending" by clicking on a checkbox.
+[x] Ensure the checkbox has an aria-label containing the text "attending" (e.g., "<first name> <last name> attending status").
+[x] Implement functionality to toggle the attendance status of guests.
+[x] On the first click of the attending checkbox, set the guest to attending (check the checkbox).
+[x] On the second click of the attending checkbox, set the guest to not attending (uncheck the checkbox).
 
 API Integration:
 
