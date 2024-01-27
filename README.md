@@ -22,13 +22,13 @@ Adding a Guest:
 [X] Enable creating a guest upon pressing the "Return" key in the last name input.
 [X] Clear both fields after creating a guest.
 [X] Set newly created guests as not attending by default.
-[] Encapsulate each guest (content and form fields) inside a <div> element with the attribute data-test-id="guest".
+[x] Encapsulate each guest (content and form fields) inside a <div> element with the attribute data-test-id="guest".
 
 Deleting a Guest:
 
-[] Provide functionality to delete a guest.
-[] Implement a button for deleting guests.
-[] Ensure the button contains the text "Remove".
+[x] Provide functionality to delete a guest.
+[x] Implement a button for deleting guests.
+[x] Ensure the button contains the text "Remove".
 Alternatively, use an aria-label attribute starting with "Remove" (e.g., "Remove <first name> <last name>").
 
 Setting Guest Attendance:

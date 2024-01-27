@@ -1,66 +1,87 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export default function InputFields() {
-  // 1. Create state variable
+  // 1. Create state variables for first name, last name, and guest list
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
-  // const [attending, setAttending] = useState(true);
   const [guests, setGuests] = useState([]);
 
-  const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      createGuest();
-    }
-  };
-
+  // Function to create a new guest
   const createGuest = () => {
+    // Check if both first name and last name are not empty
     if (firstName.trim() !== '' && lastName.trim() !== '') {
+      // Create a new guest object with trimmed first name, last name, and default attending status
       const newGuest = {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
-        attending: false, // Assuming guests are initially set as not attending
+        attending: false, // Guests are initially set as not attending
       };
+      // Add the new guest to the guest list
       setGuests([...guests, newGuest]);
+      // Clear the input fields for first name and last name
       setFirstName('');
       setLastName('');
     }
   };
 
+  // Function to handle keyboard "Enter" key press
+  const handleKeyPress = (event) => {
+    // Check if the "Enter" key is pressed
+    if (event.key === 'Enter') {
+      // Call the function to create a new guest
+      createGuest();
+    }
+  };
+
+  // Function to handle guest deletion
+  const deleteGuest = (index) => {
+    // Create a copy of the current guest list
+    const updatedGuests = [...guests];
+    // Remove the guest at the specified index from the copy of the guest list
+    updatedGuests.splice(index, 1);
+    // Update the guest list state with the modified guest list
+    setGuests(updatedGuests);
+  };
+
   return (
-    <>
-      {/* 2. Display state variable */}
-      <h2>
-        {firstName} {lastName}
-      </h2>
+    <div>
+      {/* Input field for first name */}
       <input
-        id="firstName"
         className="form-control"
         placeholder="first name"
-        // 3. use state variable as value
         value={firstName}
         onChange={(event) => {
-          // 4. Update state variable
+          // Update the state with the typed first name
           setFirstName(event.currentTarget.value);
         }}
       />
+
+      {/* Input field for last name */}
       <input
-        id="lastName"
         className="form-control"
         placeholder="last name"
-        // 3. use state variable as value
         value={lastName}
-        onChange={(event) => setLastName(event.target.value)}
-        onKeyPress={handleKeyPress} // Trigger createGuest on "Enter" key press
+        onChange={(event) => setLastName(event.currentTarget.value)}
+        // Call the function to create a new guest when "Enter" key is pressed
+        onKeyPress={handleKeyPress}
       />
 
+      {/* List of guests */}
       <ul>
-        {guests.map((guest, { index }) => (
-          <li key={index}>
-            {guest.firstName} {guest.lastName} -{' '}
-            {guest.attending ? 'Attending' : 'Not Attending'}
-          </li>
+        {guests.map((guest, index) => (
+          // Wrap each guest in a div with a key and a data-test-id attribute
+          <div key={index} data-test-id="guest">
+            {/* List item for each guest */}
+            <li>
+              {/* Display guest's first name, last name, and attending status */}
+              {guest.firstName} {guest.lastName} -{' '}
+              {guest.attending ? 'Attending' : 'Not Attending'}
+              {/* Button to remove the guest */}
+              <button onClick={() => deleteGuest(index)}>Remove</button>{' '}
+            </li>
+          </div>
         ))}
       </ul>
-    </>
+    </div>
   );
 }
