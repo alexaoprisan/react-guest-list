@@ -10,19 +10,11 @@ export default function InputFields() {
   const baseUrl =
     'https://e052a8a3-1f83-4276-a71d-9978ca69a4ef-00-183lv9icupxvs.janeway.replit.dev';
 
-  // useEffect hook to fetch initial guest data BUT IDK IF THIS WORKS????
-
   useEffect(() => {
     // Function to fetch data
     const fetchData = async () => {
-      // setIsLoading(false); // Set loading state to false
-
       // Fetch data from the API
-      const response = await fetch(
-        `${baseUrl}/guests`,
-
-        // body: JSON.stringify({ firstName: firstName, lastName: lastName }), // Body containing empty first and last name
-      );
+      const response = await fetch(`${baseUrl}/guests`);
       // Parse response data as JSON
       const allGuests = await response.json();
 
@@ -56,7 +48,7 @@ export default function InputFields() {
       const newGuest = {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
-        attending: false, // Guests are initially set as not attending
+        attending: true,
       };
       // Add the new guest to the guest list
       setGuests([...guests, newGuest]);
@@ -67,22 +59,25 @@ export default function InputFields() {
   };
 
   // Function to handle keyboard "Enter" key press
-  const handleKeyPress = (event) => {
+  const handleKeyPress = async (event) => {
     // Check if the "Enter" key is pressed
     if (event.key === 'Enter') {
       // Call the function to create a new guest
-      createGuest();
+      await createGuest();
     }
   };
 
   // Function to handle guest deletion
-  const deleteGuest = async (index) => {
-    const response = await fetch(`${baseUrl}/guests/1`, { method: 'DELETE' });
+  const deleteGuest = async (id) => {
+    const response = await fetch(`${baseUrl}/guests/${id}`, {
+      method: 'DELETE',
+    });
     const deletedGuest = await response.json();
     // Create a copy of the current guest list
-    const updatedGuests = [...guests];
-    // Remove the guest at the specified index from the copy of the guest list
-    updatedGuests.splice(index, 1);
+    const updatedGuests = guests.filter(
+      (guest) => guest.id !== deletedGuest.id,
+    );
+
     // Update the guest list state with the modified guest list
     setGuests(updatedGuests);
   };
@@ -126,17 +121,29 @@ export default function InputFields() {
                   // Connect the state variable to the form fields
                   checked={guest.attending}
                   // Update the values of the state variables based on user input
-                  onChange={(event) => {
+                  onChange={async (event) => {
                     const updatedGuests = [...guests]; // Create a copy of the guests array
                     updatedGuests[index].attending =
                       event.currentTarget.checked; // Update the attending status of the guest at the current index
                     setGuests(updatedGuests); // Update the state with the modified guest list
+
+                    // Send a PUT request to update the attending status of the guest in the API
+                    const guestIdToUpdate = updatedGuests[index].id; // Assuming each guest object has an 'id' property
+                    await fetch(`${baseUrl}/guests/${guestIdToUpdate}`, {
+                      method: 'PUT',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        attending: event.currentTarget.checked,
+                      }),
+                    });
                   }}
                 />
                 {/* Display whether the guest is attending or not */}
                 {guest.attending ? 'Attending' : 'Not Attending'}
                 {/* Button to remove the guest */}
-                <button onClick={() => deleteGuest(index)}>Remove</button>
+                <button onClick={() => deleteGuest(guest.id)}>Remove</button>
               </li>
             </div>
           );
