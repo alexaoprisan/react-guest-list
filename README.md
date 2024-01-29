@@ -41,12 +41,12 @@ Setting Guest Attendance:
 
 API Integration:
 
-[] Set up the provided API for storing and retrieving data.
+[x] Set up the provided API for storing and retrieving data.
 [] Save any changes made to the guest list to the API.
 [] Retrieve and load the guest list from the API.
 
 Initial Loading State:
 
-[] Implement loading state handling when initially loading the guest list from the API on page load.
-[] Display a loading message containing the text "Loading...".
-[] Disable the form fields while the guest list is being loaded.
+[X] Implement loading state handling when initially loading the guest list from the API on page load.
+[X] Display a loading message containing the text "Loading...".
+[X] Disable the form fields while the guest list is being loaded.
