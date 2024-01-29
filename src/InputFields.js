@@ -26,10 +26,6 @@ export default function InputFields() {
     fetchData().catch(console.error); // Catch any errors and log them to the console
   }, []); // Empty dependency array ensures this effect runs only once on component mount
 
-  if (isLoading) {
-    return 'Loading...';
-  }
-
   // Function to create a new guest
 
   const createGuest = async () => {
@@ -48,7 +44,7 @@ export default function InputFields() {
       const newGuest = {
         firstName: firstName.trim(),
         lastName: lastName.trim(),
-        attending: true,
+        attending: false,
       };
       // Add the new guest to the guest list
       setGuests([...guests, newGuest]);
@@ -81,6 +77,10 @@ export default function InputFields() {
     // Update the guest list state with the modified guest list
     setGuests(updatedGuests);
   };
+
+  if (isLoading) {
+    return 'Loading...';
+  }
 
   return (
     <div>
